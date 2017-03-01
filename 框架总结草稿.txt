@@ -1,0 +1,69 @@
+mybatis——是持久层框架，面向数据库
+	mybatis的jar包
+	数据库驱动
+	数据库连接池
+	
+	log4j配置文件
+	db配置文件
+	sqlMaperConfig.xml 配置文件，跟spring整合后，什么都不用配置了？？？
+	
+	在此层的操作
+		放在mapper包下，里面都是一些接口文件，每个接口用声明注解
+		每个接口里面许多方法，也是使用注解，注解是一些SQL语句
+		
+
+spring 
+	配置文件是applicationContext.xml
+	主要用到的是IOC，都是一些bean，然后对属性做一些设置
+	
+mybatis和spring整合
+	在上面的mybatis的基础上（当然也要加入一些spring的jar包），加入mybatis-spring整合的jar包
+	在spring的配置文件中applicationContext.xml添加信息
+		数据库配置信息
+		配置数据源
+		配置sqlSessionFactory(需要加入mybatis的配置文件，和数据源映射)
+		扫描mapper文件，扫描里要加入扫描的基础包和sqlSessionFactory
+	测试：加载的是mapper的类文件，然后就可以调用相应方法了。	
+	
+	
+springmvc
+	如果说mybatis是后面数据库的，那么springmvc可以看作是前端的，也就是servlet的
+
+	springmvc基于配置文件的开发
+		配置前端控制器
+		配置适配器
+		配置映射器
+		编写处理器，实现controller
+		配置处理器，需要制定请求URL
+		配置视图解析器	
+	springmvc基于注解的开发
+	    之于上面的方式，只有如下的改变
+		将适配器和映射器的配置整合成一句
+		开发处理器的时候，不需要实现controller，只是需要在类前面加入@Controller注解，在方法前加入@RequestMapping注解，同时加入请求URL
+		配置处理器时，用扫描包的形式
+
+springmvc和mybatis整合
+	jar包跟mybatis和spring整合的时候一样
+	准备数据库配置信息
+	log4j
+	mybatis配置文件，里面暂时什么都不需要添加
+	spring和mybatis整合的配置文件spring-mybatis.xml
+		需要引入数据库配置信息
+		配置数据源
+		配置sqlSessionFactory(加入mybatis的配置文件，和数据源)
+		扫描mapper文件，里面包括mapper基础包和sqlSessionFactory
+		如果有service，也要在此配置
+	springmvc配置
+		配置适配器和映射器，一键式
+		配置视图解析器
+		扫描controller包
+	web.xml配置
+		配置前端控制器，注意路径是适配器和映射器的配置文件路径springmvc.xml
+		对于spring-mybatis.xml，称之为spring容器，也要进行配置，这种配置需要添加监听器
+
+	程序开发
+		mapper：用注解写sql语句
+		service：里面自动加载mapper
+		controller：类要加入@controller注解，里面自动加载service，controller里的方法相当于servlet的方法，处理请求和响应，方法头要加入@RequestMapping注解，将请求URL跟实际路径进行映射
+
+	
